@@ -8,6 +8,17 @@ class CheckLeaked:
         self.sess = r.Session()
         self.sess.headers["api-key"] = CHECKLEAKED_API_KEY
 
+    def get_all_info(
+        self,
+        name: str = None,
+        email: str = None,
+        username: str = None,
+        password: str = None,
+        hashed_password: str = None,
+        ip: str = None,
+    ):
+        pass
+
     def by_name(self, name: str):
         pass
 

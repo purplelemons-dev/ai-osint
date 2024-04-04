@@ -14,8 +14,7 @@ class Dehashed:
         self.sess.headers["Content-Type"] = "application/json"
         self.sess.headers["Accept"] = "application/json"
 
-
-    def dehashed(
+    def get_all_info(
         self,
         name: str = None,
         phone: str = None,

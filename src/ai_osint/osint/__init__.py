@@ -1,4 +1,8 @@
-def getAllSourceInfo(
+from .dehashed import Dehashed
+from .tps import TPS
+from .checkleaked import CheckLeaked
+
+def get_all_source_info(
     name: str = None, # dehashed, tps, checkleaked
     phone: str = None, # dehashed, tps
     email: str = None, # dehashed, tps, checkleaked

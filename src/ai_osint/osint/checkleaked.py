@@ -9,6 +9,8 @@ class CheckLeaked:
     def __init__(self) -> None:
         self.sess = r.Session()
         self.sess.headers["api-key"] = CHECKLEAKED_API_KEY
+        self.sess.headers["Content-Type"] = "application/json"
+        self.sess.headers["Accept"] = "application/json"
         self.BASE_URL = "https://api.checkleaked.cc/api"
 
     def post(

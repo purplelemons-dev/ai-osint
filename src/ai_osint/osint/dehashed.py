@@ -20,7 +20,7 @@ class Dehashed:
         for query in queries:
             query_string += f"{query['query_type']}:{query['query']}&"
         response = self.sess.get(
-            f"https://api.dehashed.com/search?query={query_string}page=1&size=2048"
+            f"https://api.dehashed.com/search?query={query_string}page=1&size=256"
         ).json()
         return response["entries"]
 

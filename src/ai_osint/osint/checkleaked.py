@@ -47,7 +47,7 @@ class CheckLeaked:
             result.append(self.crack_hash(hashed_password))
         if ip is not None:
             result += self.by_ip(ip)
-        return result
+        return result[:256]
 
     def by_name(self, name: str):
         return self.post(name, "name")

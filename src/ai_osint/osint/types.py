@@ -1,5 +1,20 @@
-from typing import Any
+from typing import Any, Literal, TypedDict
 import json
+
+
+class DehashedQuery(TypedDict):
+    query: str
+    query_type: Literal[
+        "name",
+        "phone",
+        "email",
+        "username",
+        "address",
+        "ip_address",
+        "domain",
+        "password",
+        "hashed_password",
+    ]
 
 
 class DataSource:

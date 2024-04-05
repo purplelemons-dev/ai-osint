@@ -1,8 +1,7 @@
 import requests as r
 from .env import CHECKLEAKED_API_KEY
 from typing import Literal
-
-# from typing import Any
+from typing import Any
 
 
 class CheckLeaked:
@@ -10,19 +9,21 @@ class CheckLeaked:
     def __init__(self) -> None:
         self.sess = r.Session()
         self.sess.headers["api-key"] = CHECKLEAKED_API_KEY
+        self.BASE_URL = "https://api.checkleaked.cc/api"
 
     def post(
         self,
         entry: str,
         entry_type: Literal["name", "email", "username", "password", "hash", "lastip"],
-    ):
+    ) -> list[dict[str, Any]]:
         return self.sess.post(
-            "https://api.checkleaked.com/api/experimental",
-            json={"entry": entry, "type": entry_type},
-        ).json()
+            f"{self.BASE_URL}/experimental", json={"entry": entry, "type": entry_type}
+        ).json()["results"]
 
     def get_all_info(
         self,
+        /,
+        *,
         name: str = None,
         email: str = None,
         username: str = None,
@@ -32,18 +33,18 @@ class CheckLeaked:
     ):
         result = []
         if name is not None:
-            result.append(self.by_name(name))
+            result += self.by_name(name)
         if email is not None:
-            result.append(self.by_email(email))
+            result += self.by_email(email)
         if username is not None:
-            result.append(self.by_username(username))
+            result += self.by_username(username)
         if password is not None:
-            result.append(self.by_password(password))
+            result += self.by_password(password)
         if hashed_password is not None:
-            result.append(self.by_hashed_password(hashed_password))
+            result += self.by_hashed_password(hashed_password)
             result.append(self.crack_hash(hashed_password))
         if ip is not None:
-            result.append(self.by_ip(ip))
+            result += self.by_ip(ip)
         return result
 
     def by_name(self, name: str):
@@ -66,13 +67,14 @@ class CheckLeaked:
 
     def crack_hash(self, hashed_password: str):
         response = self.sess.post(
-            "https://api.checkleaked.com/api/crack_hash", json={"hash": hashed_password}
+            f"{self.BASE_URL}/crack_hash", json={"hash": hashed_password}
         )
         return response.json()
 
 
 if __name__ == "__main__":
     from .env import TEST_INFO
+    import json
 
     checkleaked = CheckLeaked()
-    print(checkleaked.post({"entry": TEST_INFO.email, "type": "email"}).json())
+    print(json.dumps(checkleaked.get_all_info(name=TEST_INFO.name), indent=2))

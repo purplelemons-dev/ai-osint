@@ -8,8 +8,8 @@ class Dehashed:
     def __init__(self) -> None:
         self.sess = r.Session()
         self.sess.headers["Authorization"] = (
+            # `Authorization: Basic b64(email:key)`
             "Basic "
-            # b64(email:key)
             + b64encode(f"{DEHASHED_EMAIL}:{DEHASHED_API_KEY}".encode()).decode()
         )
         self.sess.headers["Content-Type"] = "application/json"
@@ -20,9 +20,8 @@ class Dehashed:
         for query in queries:
             query_string += f"{query['query_type']}:{query['query']}&"
         response = self.sess.get(
-            f"https://api.dehashed.com/search?query={query_string}page=1&size=10000"
+            f"https://api.dehashed.com/search?query={query_string}page=1&size=2048"
         ).json()
-        print(response)
         return response["entries"]
 
     def get_all_info(

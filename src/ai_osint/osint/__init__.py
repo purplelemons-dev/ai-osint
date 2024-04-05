@@ -1,7 +1,7 @@
 from .dehashed import Dehashed
 from .tps import TPS
 from .checkleaked import CheckLeaked
-from .types import DataSource
+from .types import DataSource, Query
 
 dehashed = Dehashed()
 tps = TPS()
@@ -18,7 +18,10 @@ def get_all_source_info(
     domain: str = None,  # dehashed
     password: str = None,  # dehashed, checkleaked
     hashed_password: str = None,  # dehashed, checkleaked, md5hashing.net
+    debug: bool = False,
 ) -> list[DataSource]:
+    if debug:
+        print("Checking CheckLeaked...")
     checkleaked_data = DataSource(
         "CheckLeaked",
         checkleaked.get_all_info(
@@ -30,6 +33,9 @@ def get_all_source_info(
             hashed_password=hashed_password,
         ),
     )
+
+    if debug:
+        print("Checking Dehashed...")
     dehashed_data = DataSource(
         "Dehashed",
         dehashed.get_all_info(
@@ -44,6 +50,9 @@ def get_all_source_info(
             hashed_password=hashed_password,
         ),
     )
+
+    if debug:
+        print("Checking TruePeopleSearch...")
     tps_data = DataSource(
         "TPS", tps.get_all_info(name=name, phone=phone, email=email, address=address)
     )

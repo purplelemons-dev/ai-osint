@@ -6,7 +6,9 @@ import json
 client = OpenAI()
 
 
-def generate(model: str, query: Query, *data_source: DataSource):
+def generate(model: str, query: Query, *data_source: DataSource, debug: bool = False):
+    if debug:
+        print("Generating AI OSINT report...")
     return client.chat.completions.create(
         model=model,
         messages=[

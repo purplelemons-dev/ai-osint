@@ -2,6 +2,7 @@ import requests as r
 from .env import CHECKLEAKED_API_KEY
 from typing import Literal
 from typing import Any
+import json
 
 
 class CheckLeaked:
@@ -18,9 +19,14 @@ class CheckLeaked:
         entry: str,
         entry_type: Literal["name", "email", "username", "password", "hash", "lastip"],
     ) -> list[dict[str, Any]]:
-        return self.sess.post(
+        response = self.sess.post(
             f"{self.BASE_URL}/experimental", json={"entry": entry, "type": entry_type}
-        ).json()["results"]
+        )
+        try:
+            return response.json()["results"]
+        except KeyError:
+            # no results, either rate limited or no data
+            return []
 
     def get_all_info(
         self,

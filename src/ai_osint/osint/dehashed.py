@@ -22,7 +22,9 @@ class Dehashed:
         response = self.sess.get(
             f"https://api.dehashed.com/search?query={query_string}page=1&size=256"
         ).json()
-        return response["entries"]
+        entries = response["entries"]
+        # in case empty, make sure to return a list instead of None
+        return entries if entries is None else []
 
     def get_all_info(
         self,

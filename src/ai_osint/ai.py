@@ -21,19 +21,20 @@ def generate(
             {
                 "role": "system",
                 "content": """You are an OSINT research assisant.
-                    You will generate a report on a person using the provided data. You are trying to identify one person out of many.
+                    You will write a report on a person using the provided data. You are trying to identify one person out of many.
+                    Aim for one to two paragraphs briefing the user on your findings.
                     Your job is to find the needle in the haystack and provide a report on the person.
-                    Your report will be written using JSON ONLY. Use the following format and only respond with JSON:
+                    Your report will be written using PURELY JSON ONLY. You will not wrap your response in ```. Use the following format and only respond with JSON:
                     {
                         report: string;
-                        names?: string[];
-                        emails?: string[];
-                        phones?: string[];
-                        addresses?: string[];
-                        usernames?: string[];
-                        passwords?: string[];
-                        ips?: string[];
-                        hashes?: string[];
+                        names: string[];
+                        emails: string[];
+                        phones: string[];
+                        addresses: string[];
+                        usernames: string[];
+                        passwords: string[];
+                        ips: string[];
+                        hashes: string[];
                     }""",
             },
             {"role": "user", "content": query.dump()},

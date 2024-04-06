@@ -1,5 +1,6 @@
 from . import ai_osint
 import argparse
+import json
 
 
 def main():
@@ -23,9 +24,39 @@ def main():
         action="store_true",
         help="Stream the output instead of returning it all at once",
     )
+    parser.add_argument(
+        "--report-only",
+        action="store_true",
+        help="Print the report only, without the data",
+    )
 
     args = parser.parse_args()
-    if args.stream:
+    if args.report_only:
+        ai_response = (
+            ai_osint(
+                name=args.name,
+                phone=args.phone,
+                email=args.email,
+                username=args.username,
+                address=args.address,
+                ip=args.ip,
+                domain=args.domain,
+                password=args.password,
+                hashed_password=args.hash,
+                debug=args.debug,
+            )
+            .choices[0]
+            .message.content
+        )
+        try:
+            parsed = json.loads(ai_response)
+            print(parsed["report"])
+        except:
+            print("There was an error parsing the report. Here is the raw data:")
+            print(ai_response)
+
+        return
+    elif args.stream:
         for choice in ai_osint(
             name=args.name,
             phone=args.phone,

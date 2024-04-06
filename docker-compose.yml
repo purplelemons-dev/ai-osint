@@ -1,0 +1,13 @@
+version: "3.8"
+
+
+services:
+  ai-osint:
+    image: purplelemons/ai-osint:latest
+    build:
+      context: src
+      dockerfile: Dockerfile
+    container_name: ai-osint
+    tty: true
+    env_file:
+      - src/.env

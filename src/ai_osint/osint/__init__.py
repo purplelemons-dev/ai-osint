@@ -1,7 +1,7 @@
 from .dehashed import Dehashed
 from .tps import TPS
 from .checkleaked import CheckLeaked
-from .types import DataSource, Query
+from .types import DataSource
 
 dehashed = Dehashed()
 tps = TPS()

@@ -1,4 +1,5 @@
-from .osint import get_all_source_info, Query
+from .osint import get_all_source_info
+from .osint.types import Query
 from .ai import generate
 
 BASE_MODEL = "gpt-4-turbo-preview"  # because it has a 128k context window

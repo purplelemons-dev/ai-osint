@@ -18,8 +18,29 @@ def main():
         action="store_true",
         help="Run the program in debug mode and print progress",
     )
+    parser.add_argument(
+        "--stream",
+        action="store_true",
+        help="Stream the output instead of returning it all at once",
+    )
 
     args = parser.parse_args()
+    if args.stream:
+        for choice in ai_osint(
+            name=args.name,
+            phone=args.phone,
+            email=args.email,
+            username=args.username,
+            address=args.address,
+            ip=args.ip,
+            domain=args.domain,
+            password=args.password,
+            hashed_password=args.hash,
+            debug=args.debug,
+            stream=args.stream,
+        ):
+            print(choice.choices[0].delta.content, end="")
+        return
     print(
         ai_osint(
             name=args.name,
@@ -32,6 +53,7 @@ def main():
             password=args.password,
             hashed_password=args.hash,
             debug=args.debug,
+            stream=args.stream,
         )
         .choices[0]
         .message.content

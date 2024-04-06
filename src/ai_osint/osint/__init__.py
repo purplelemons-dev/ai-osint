@@ -54,6 +54,7 @@ def get_all_source_info(
     if debug:
         print("Checking TruePeopleSearch...")
     tps_data = DataSource(
-        "True-People-Search", tps.get_all_info(name=name, phone=phone, email=email, address=address)
+        "True-People-Search",
+        tps.get_all_info(name=name, phone=phone, email=email, address=address),
     )
     return [checkleaked_data, dehashed_data, tps_data]

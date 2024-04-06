@@ -15,6 +15,7 @@ def ai_osint(
     password: str = None,
     hashed_password: str = None,
     debug: bool = False,
+    stream: bool = False,
 ):
     osint_data = get_all_source_info(
         name=name,
@@ -40,4 +41,4 @@ def ai_osint(
         hashed_password=hashed_password,
     )
 
-    return generate(BASE_MODEL, query, *osint_data, debug=debug)
+    return generate(BASE_MODEL, query, *osint_data, debug=debug, stream=stream)

@@ -6,7 +6,13 @@ import json
 client = OpenAI()
 
 
-def generate(model: str, query: Query, *data_source: DataSource, debug: bool = False):
+def generate(
+    model: str,
+    query: Query,
+    *data_source: DataSource,
+    debug: bool = False,
+    stream: bool = False,
+):
     if debug:
         print("Generating AI OSINT report...")
     return client.chat.completions.create(
@@ -15,18 +21,19 @@ def generate(model: str, query: Query, *data_source: DataSource, debug: bool = F
             {
                 "role": "system",
                 "content": """You are an OSINT research assisant.
-                    You will generate a report on a person using data.
+                    You will generate a report on a person using the provided data. You are trying to identify one person out of many.
+                    Your job is to find the needle in the haystack and provide a report on the person.
                     Your report will be written using JSON ONLY. Use the following format and only respond with JSON:
                     {
-                        names: string[];
-                        emails: string[];
-                        phones: string[];
-                        addresses: string[];
-                        usernames: string[];
-                        passwords: string[];
-                        domains: string[];
-                        ips: string[];
-                        hashes: string[];
+                        report: string;
+                        names?: string[];
+                        emails?: string[];
+                        phones?: string[];
+                        addresses?: string[];
+                        usernames?: string[];
+                        passwords?: string[];
+                        ips?: string[];
+                        hashes?: string[];
                     }""",
             },
             {"role": "user", "content": query.dump()},
@@ -34,9 +41,10 @@ def generate(model: str, query: Query, *data_source: DataSource, debug: bool = F
                 {
                     "role": "user",
                     "name": source.origin,
-                    "content": json.dumps(source.data),#, indent=2),
+                    "content": json.dumps(source.data),  # , indent=2),
                 }
                 for source in data_source
             ],
         ],
+        stream=stream,
     )

@@ -40,7 +40,16 @@ class Dehashed:
         individual_queries = []
         if name is not None:
             query_list.append({"query": name, "query_type": "name"})
-            individual_queries.append(self.get([{"query": name, "query_type": "name"}]))
+            if address is not None:
+                query_list.append({"query": address, "query_type": "address"})
+            individual_queries.append(
+                self.get(
+                    [
+                        {"query": name, "query_type": "name"},
+                        {"query": address, "query_type": "address"},
+                    ]
+                )
+            )
         if phone is not None:
             query_list.append({"query": phone, "query_type": "phone"})
             individual_queries.append(
@@ -55,11 +64,6 @@ class Dehashed:
             query_list.append({"query": username, "query_type": "username"})
             individual_queries.append(
                 self.get([{"query": username, "query_type": "username"}])
-            )
-        if address is not None:
-            query_list.append({"query": address, "query_type": "address"})
-            individual_queries.append(
-                self.get([{"query": address, "query_type": "address"}])
             )
         if ip is not None:
             query_list.append({"query": ip, "query_type": "ip_address"})

@@ -14,6 +14,9 @@ COPY . .
 # Get the browser "warmed up" (e.g. download the webdriver)
 RUN python -m ai_osint.osint.tps
 
+# evil wtf run #2
+#RUN python -m ai_osint.osint.tps
+
 # Run the application
 # Container should be run as a command. entrypoint is python -m ai_osint [options]
 ENTRYPOINT ["python", "-m", "ai_osint"]

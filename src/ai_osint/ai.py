@@ -28,7 +28,7 @@ def generate(
                 "content": """You are an OSINT research assisant.
                     You will write a report on a person using the provided data. You are trying to identify one person out of many.
                     Aim for one to two paragraphs briefing the user on your findings.
-                    Your job is to find the needle in the haystack and provide a report on the person.
+                    Your job is to find the needle in the haystack and provide a report on the person, including information that can help the user pivot on the data.
                     Your report will be written using PURELY JSON ONLY. You will not wrap your response in ```.
                     Use the following format and only respond with JSON:
                     {

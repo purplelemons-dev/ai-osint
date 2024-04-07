@@ -11,6 +11,17 @@ from typing import Any
 
 class TPS:
 
+    @browser(block_resources=True, headless=True)
+    @staticmethod
+    def preload_driver(driver: AntiDetectDriver, data):
+        while True:
+            try:
+                driver.get_google()
+                break
+            except:
+                pass
+        return {"status": driver.title}
+
     def get_all_info(
         self,
         name: str = None,
@@ -144,7 +155,7 @@ class TPS:
 
 
 if __name__ == "__main__":
-    from .env import TEST_INFO
+    print("Initializing True People Search driver...")
 
-    tps = TPS()
-    print(tps.get_all_info(email=TEST_INFO.email))
+    TPS().preload_driver()
+    exit(0)

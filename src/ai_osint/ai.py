@@ -3,7 +3,12 @@ from .osint.types import DataSource, Query
 import json
 
 # i assume you have api key set in your env vars. look at openai docs for more info
-client = OpenAI()
+try:
+    client = OpenAI()
+except:
+    from .osint.env import OPENAI_API_KEY, OPENAI_ORG_ID
+
+    client = OpenAI(api_key=OPENAI_API_KEY, organization=OPENAI_ORG_ID)
 
 
 def generate(

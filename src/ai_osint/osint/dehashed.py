@@ -24,7 +24,7 @@ class Dehashed:
         ).json()
         entries = response["entries"]
         # in case empty, make sure to return a list instead of None
-        return entries if entries is None else []
+        return entries if entries else []
 
     def get_all_info(
         self,

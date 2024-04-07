@@ -3,6 +3,7 @@ version: "3.8"
 
 services:
   ai-osint:
+    shm_size: 1gb
     image: purplelemons/ai-osint:latest
     build:
       context: src

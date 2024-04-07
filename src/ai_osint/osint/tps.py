@@ -10,18 +10,6 @@ from typing import Any
 
 
 class TPS:
-    def __init__(self):
-        # ua = fake_useragent.FakeUserAgent()
-        ## init driver
-        # options = Options()
-        # options.add_argument("--headless")
-        # options.add_argument("--no-sandbox")
-        # options.add_argument("--disable-dev-shm-usage")
-        # options.add_argument("--disable-gpu")
-        # options.add_argument(f"user-agent={ua.random}")
-        # driver = webdriver.Chrome(options=options)
-        # self.driver = driver
-        self.sleep_time = 1
 
     def get_all_info(
         self,
@@ -161,6 +149,3 @@ if __name__ == "__main__":
 
     tps = TPS()
     print(tps.get_all_info(email=TEST_INFO.email))
-    # print(tps.by_name(TEST_INFO.name, TEST_INFO.location))
-    # print(tps.by_phone(TEST_INFO.phone))
-    # print(tps.by_email(TEST_INFO.email))

@@ -8,6 +8,7 @@ services:
     build:
       context: src
       dockerfile: Dockerfile
+      
     container_name: ai-osint
     tty: true
     env_file:

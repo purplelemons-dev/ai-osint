@@ -2,6 +2,7 @@ from .env import DEHASHED_API_KEY, DEHASHED_EMAIL
 import requests as r
 from base64 import b64encode
 from .types import DehashedQuery
+from typing import Any
 
 
 class Dehashed:
@@ -19,7 +20,7 @@ class Dehashed:
         query_string = ""
         for query in queries:
             query_string += f"{query['query_type']}:{query['query']}&"
-        response = self.sess.get(
+        response: dict[str, Any] = self.sess.get(
             f"https://api.dehashed.com/search?query={query_string}page=1&size=256"
         ).json()
         entries = response["entries"]

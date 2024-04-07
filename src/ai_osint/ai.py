@@ -29,7 +29,8 @@ def generate(
                     You will write a report on a person using the provided data. You are trying to identify one person out of many.
                     Aim for one to two paragraphs briefing the user on your findings.
                     Your job is to find the needle in the haystack and provide a report on the person.
-                    Your report will be written using PURELY JSON ONLY. You will not wrap your response in ```. Use the following format and only respond with JSON:
+                    Your report will be written using PURELY JSON ONLY. You will not wrap your response in ```.
+                    Use the following format and only respond with JSON:
                     {
                         report: string;
                         names: string[];
@@ -42,7 +43,7 @@ def generate(
                         hashes: string[];
                     }""",
             },
-            {"role": "user", "content": query.dump()},
+            {"role": "user", "name": "query", "content": query.dump()},
             *[
                 {
                     "role": "user",

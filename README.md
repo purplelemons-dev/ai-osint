@@ -23,5 +23,6 @@ docker compose run --rm ai-osint --email "someone@example.com"
 ```bash
 git clone https://github.com/purplelemons-dev/ai-osint.git
 cd ai-osint
-docker compose up
+docker compose up -d
+curl -X POST -H "Content-Type: application/json" -d '{"email": "someone@example.com"}' http://localhost:10021/
 ```

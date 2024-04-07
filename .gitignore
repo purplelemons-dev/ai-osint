@@ -3,3 +3,11 @@
 /src/ai_osint/env.py
 /src/ai_osint/osint/env.py
 __pycache__
+/test/build
+/test/error_logs
+/test/output
+/test/tasks
+/test/local_storage.json
+/test/profiles
+/test/profiles.json
+/test/test.json

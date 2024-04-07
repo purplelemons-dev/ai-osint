@@ -1,24 +1,26 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# import fake_useragent
 from selenium.webdriver.common.by import By
+from botasaurus import browser, AntiDetectDriver
 import time
-import fake_useragent
+from typing import Any
 
 # Truepeoplesearch.com
 
 
 class TPS:
     def __init__(self):
-        ua = fake_useragent.FakeUserAgent()
-        # init driver
-        options = Options()
-        options.add_argument("--headless")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
-        options.add_argument(f"user-agent={ua.random}")
-        driver = webdriver.Chrome(options=options)
-        self.driver = driver
+        # ua = fake_useragent.FakeUserAgent()
+        ## init driver
+        # options = Options()
+        # options.add_argument("--headless")
+        # options.add_argument("--no-sandbox")
+        # options.add_argument("--disable-dev-shm-usage")
+        # options.add_argument("--disable-gpu")
+        # options.add_argument(f"user-agent={ua.random}")
+        # driver = webdriver.Chrome(options=options)
+        # self.driver = driver
         self.sleep_time = 1
 
     def get_all_info(
@@ -28,48 +30,137 @@ class TPS:
         email: str = None,
         address: str = None,
     ):
-        pass
+        results = []
+        if name is not None:
+            results.append(
+                self.by_name(metadata={"name": name, "citystatezip": address})
+            )
+        elif phone is not None:
+            results.append(self.by_phone(metadata={"phone": phone}))
+        elif email is not None:
+            results.append(self.by_email(metadata={"email": email}))
+        # elif address is not None:
+        #    results.append(self.by_address(address))
+        return results
 
-    def by_name(self, name: str, citystatezip: str = None):
-        self.driver.delete_all_cookies()
-        self.driver.get(
-            f"https://www.truepeoplesearch.com/results?{name=}"
-            + (f"&{citystatezip=}" if citystatezip is not None else "")
-        )
-        # sleep to let the page load
-        time.sleep(self.sleep_time)
-        print(self.driver.current_url)
+    @browser(block_resources=True, headless=True)
+    @staticmethod
+    def by_name(
+        driver: AntiDetectDriver, data: dict[str, Any], metadata: dict[str, Any]
+    ):
+        name = metadata["name"]
+        citystatezip = metadata["citystatezip"]
+        URL = f"https://www.truepeoplesearch.com/results?{name=}" + (
+            f"&{citystatezip=}" if citystatezip is not None else ""
+        ).replace("'", "")
+        driver.get(URL)
+        time.sleep(1)
         suspected_URLs = [
             element.find_element(By.TAG_NAME, "a").get_attribute("href")
-            for element in self.driver.find_elements(By.CLASS_NAME, "card-summary")
+            for element in driver.find_elements(By.CLASS_NAME, "card-summary")
         ]
         results = []
-        print(suspected_URLs)
         for url in suspected_URLs:
-            self.driver.get(url)
-            time.sleep(self.sleep_time)
+            driver.get(url)
+            time.sleep(1)
             result = (
-                self.driver.find_element(By.ID, "personDetails")
+                driver.find_element(By.ID, "personDetails")
                 .text.replace("\n", " ")
                 .replace("  ", " ")
             )
             results.append(result)
         return results
 
-    def by_phone(self, phone: str):
-        pass
+    @browser(block_resources=True, headless=True)
+    @staticmethod
+    def by_phone(
+        driver: AntiDetectDriver, data: dict[str, Any], metadata: dict[str, Any]
+    ):
+        phoneno = metadata["phone"]
+        URL = f"https://www.truepeoplesearch.com/resultphone?{phoneno=}".replace(
+            "'", ""
+        )
+        driver.get(URL)
+        time.sleep(1)
+        suspected_URLs = [
+            element.find_element(By.TAG_NAME, "a").get_attribute("href")
+            for element in driver.find_elements(By.CLASS_NAME, "card-summary")
+        ]
+        results = []
+        for url in suspected_URLs:
+            driver.get(url)
+            time.sleep(1)
+            result = (
+                driver.find_element(By.ID, "personDetails")
+                .text.replace("\n", " ")
+                .replace("  ", " ")
+            )
+            results.append(result)
+        return results
 
-    def by_address(self, address: str):
-        pass
+    @browser(block_resources=True, headless=True)
+    @staticmethod
+    def by_address(
+        driver: AntiDetectDriver, data: dict[str, Any], metadata: dict[str, Any]
+    ):
+        raise NotImplementedError
+        address = metadata["address"]
+        citystatezip = metadata["citystatezip"]
+        driver.get(
+            f"https://www.truepeoplesearch.com/resultaddress?streetaddress={address}&{citystatezip=}"
+        )
+        time.sleep(1)
+        suspected_URLs = [
+            element.find_element(By.TAG_NAME, "a").get_attribute("href")
+            for element in driver.find_elements(By.CLASS_NAME, "card-summary")
+        ]
+        results = []
+        for url in suspected_URLs:
+            driver.get(url)
+            time.sleep(1)
+            result = (
+                driver.find_element(By.ID, "personDetails")
+                .text.replace("\n", " ")
+                .replace("  ", " ")
+            )
+            results.append(result)
+        return results
 
-    def by_email(self, email: str):
-        pass
+    @browser(block_resources=True, headless=True)
+    @staticmethod
+    def by_email(
+        driver: AntiDetectDriver, data: dict[str, Any], metadata: dict[str, Any]
+    ):
+        email: str = metadata["email"]
+        email = email.replace("@", "_at_")
+        email = email.replace(".", "_dot_")
+
+        URL = f"https://www.truepeoplesearch.com/resultemail?{email=}".replace("'", "")
+        print(URL)
+        driver.get(URL)
+        time.sleep(1)
+        suspected_URLs = [
+            element.find_element(By.TAG_NAME, "a").get_attribute("href")
+            for element in driver.find_elements(By.CLASS_NAME, "card-summary")
+        ]
+        results = []
+        for url in suspected_URLs:
+            driver.get(url)
+            time.sleep(1)
+            result = (
+                driver.find_element(By.ID, "personDetails")
+                .text.replace("\n", " ")
+                .replace("  ", " ")
+            )
+            results.append(result)
+        return results
 
 
 if __name__ == "__main__":
     from .env import TEST_INFO
 
     tps = TPS()
-    print(tps.by_name(TEST_INFO.name, TEST_INFO.location))
-    print(tps.by_phone(TEST_INFO.phone))
-    print(tps.by_email(TEST_INFO.email))
+    print(tps.get_all_info(email=TEST_INFO.email))
+    # print(tps.by_name(TEST_INFO.name, TEST_INFO.location))
+    # print(tps.by_phone(TEST_INFO.phone))
+    # print(tps.by_email(TEST_INFO.email))

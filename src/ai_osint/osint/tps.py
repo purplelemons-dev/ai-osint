@@ -46,7 +46,7 @@ class TPS:
         suspected_URLs = [
             element.find_element(By.TAG_NAME, "a").get_attribute("href")
             for element in driver.find_elements(By.CLASS_NAME, "card-summary")
-        ]
+        ][:4]
         results = []
         for url in suspected_URLs:
             driver.get(url)
@@ -73,7 +73,7 @@ class TPS:
         suspected_URLs = [
             element.find_element(By.TAG_NAME, "a").get_attribute("href")
             for element in driver.find_elements(By.CLASS_NAME, "card-summary")
-        ]
+        ][:4]
         results = []
         for url in suspected_URLs:
             driver.get(url)
@@ -101,7 +101,7 @@ class TPS:
         suspected_URLs = [
             element.find_element(By.TAG_NAME, "a").get_attribute("href")
             for element in driver.find_elements(By.CLASS_NAME, "card-summary")
-        ]
+        ][:4]
         results = []
         for url in suspected_URLs:
             driver.get(url)
@@ -124,13 +124,12 @@ class TPS:
         email = email.replace(".", "_dot_")
 
         URL = f"https://www.truepeoplesearch.com/resultemail?{email=}".replace("'", "")
-        print(URL)
         driver.get(URL)
         time.sleep(1)
         suspected_URLs = [
             element.find_element(By.TAG_NAME, "a").get_attribute("href")
             for element in driver.find_elements(By.CLASS_NAME, "card-summary")
-        ]
+        ][:4]
         results = []
         for url in suspected_URLs:
             driver.get(url)

@@ -3,12 +3,13 @@ version: "3.8"
 
 services:
   ai-osint:
+    ports:
+      - "10021:10021"
     shm_size: 1gb
     image: purplelemons/ai-osint:latest
     build:
       context: src
       dockerfile: Dockerfile
-      
     container_name: ai-osint
     tty: true
     env_file:

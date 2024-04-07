@@ -17,3 +17,6 @@ RUN python -m ai_osint.osint.tps
 # Run the application
 # Container should be run as a command. entrypoint is python -m ai_osint [options]
 ENTRYPOINT ["python", "-m", "ai_osint"]
+
+# Default command is to run the application
+CMD ["--api"]

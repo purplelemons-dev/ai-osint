@@ -29,9 +29,16 @@ def main():
         action="store_true",
         help="Print the report only, without the data",
     )
+    parser.add_argument(
+        "--api", action="store_true", help="Serve the app as a RESTful API"
+    )
 
     args = parser.parse_args()
-    if args.report_only:
+    if args.api:
+        from .serve_api import run
+
+        run()
+    elif args.report_only:
         ai_response = (
             ai_osint(
                 name=args.name,

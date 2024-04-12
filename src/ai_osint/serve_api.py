@@ -39,10 +39,7 @@ class ServeAPI(BaseHTTPRequestHandler):
             .choices[0]
             .message.content
         )
-        try:
-            self.wfile.write(ai_response.encode())
-        except:
-            self.wfile.write(ai_response.encode())
+        self.wfile.write(ai_response.encode())
         return
 
 

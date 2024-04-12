@@ -40,8 +40,7 @@ class ServeAPI(BaseHTTPRequestHandler):
             .message.content
         )
         try:
-            parsed = json.loads(ai_response)
-            self.wfile.write(json.dumps(parsed).encode())
+            self.wfile.write(ai_response.encode())
         except:
             self.wfile.write(ai_response.encode())
         return

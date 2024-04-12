@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from botasaurus import browser, AntiDetectDriver
 import time
 from typing import Any
+from traceback import print_exc
 
 # Truepeoplesearch.com
 
@@ -19,7 +20,7 @@ class TPS:
                 driver.get_google()
                 break
             except:
-                pass
+                print_exc()
         return {"status": driver.title}
 
     def get_all_info(

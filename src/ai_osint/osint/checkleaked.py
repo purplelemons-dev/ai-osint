@@ -27,6 +27,10 @@ class CheckLeaked:
         except KeyError:
             # no results, either rate limited or no data
             return []
+        except r.exceptions.JSONDecodeError:
+            print("Error decoding JSON response, returning raw text")
+            print(response.text)
+            return response.text
 
     def get_all_info(
         self,
